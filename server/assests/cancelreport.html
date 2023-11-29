@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      .h {
+        text-align: center;
+        margin-top: 5px;
+      }
+
+      .l1 {
+        margin-left: 20px;
+        position: fixed;
+      }
+      .l2 {
+        margin-left: 250px;
+        position: fixed;
+      }
+      .l3 {
+        margin-left: 550px;
+        position: fixed;
+      }
+      h6 {
+        margin-left: 20px;
+      }
+      table,
+      th,
+      td {
+        outline: solid #96d4d4;
+        text-align: center;
+        margin-left: 30px;
+      }
+      .table {
+        margin-top: 80px;
+        position: fixed;
+        font-size: small;
+      }
+    </style>
+    <title>CancellReports</title>
+  </head>
+  <body>
+    <hr style="border: 1px solid #808080" />
+    <h6 class="h">TRANSACTION CANCELLATION REPORT</h6>
+    <hr style="border: 1px solid #808080" />
+    <h6>Company Name : National Highways Authority of India</h6>
+    <div class="l1">
+      <label>From Date : {{users.fromDate}}</label><br />
+      <label>To Date : {{users.toDate}}</label>
+    </div>
+    <div class="l2">
+      <label>GeneratedBy : {{users.loginUser}}</label><br />
+      <label>GenrateDate : {{users.Generated_Date}}</label>
+    </div>
+    <div class="l3">
+      <label>Lane : {{users.lane}}</label>
+    </div>
+
+    <div class="table">
+      <hr style="border: 1px solid #808080" />
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">TRANSACTION ID</th>
+            <th scope="col">PASSAGE TIME</th>
+            <th scope="col">LANE</th>
+            <th scope="col">OPERATOR ID</th>
+            <th scope="col">Plate No.</th>
+            <th scope="col">VEHICLE CLASS</th>
+            <th scope="col">FARE</th>
+            <th scope="col">ABNORMAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each users.alldata}}
+          <tr>
+            <td>{{ this.LANE_TRANS_ID }}</td>
+            <td>{{ this.PASSAGE_TIME }}</td>
+            <td>{{ this.LANE_ID }}</td>
+            <td>{{ this.OPERATOR_ID }}</td>
+            <td>{{ this.VEH_PLATE }}</td>
+            <td>{{ this.VEH_CLASS_DESCRIPTION }}</td>
+            <td>{{ this.CLASS_FARE }}</td>
+            <td>{{ this.ABNORMALITY }}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

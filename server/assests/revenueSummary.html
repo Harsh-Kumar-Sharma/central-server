@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      .h {
+        text-align: center;
+        margin-top: 5px;
+      }
+      .c{
+        margin-left: 30px;
+      }
+      .c1{
+        margin-left: 300px;
+      }
+      .l1 {
+        margin-top: 15px;
+        margin-left: 20px;
+        position: fixed;
+      }
+      .l2 {
+        margin-top: 15px;
+        margin-left: 300px;
+        position: fixed;
+      }
+      .l3 {
+        margin-top: 15px;
+        margin-left: 590px;
+        position: fixed;
+      }
+      .l4 {
+        margin-top: 15px;
+        margin-left: 750px;
+        position: fixed;
+      }
+      h6 {
+        margin-left: 20px;
+      }
+      table,
+      th,
+      td {
+        outline:gray;
+        text-align: center;
+        margin-left: 30px;
+      }
+      .table {
+        margin-top: 100px;
+        position: fixed;
+        font-size: small;
+      }
+      </style>
+    <title>CancellReports</title>
+  </head>
+  <body>
+    <hr style="border: 1px solid #808080" />
+    <h6 class="h">TRANSACTION COUNT REPORT</h6>
+    <hr style="border: 1px solid #808080" />
+    <div class="row  company">
+      <div class="col-12">
+        <label class="c" >Operator: {{ users.Operator}}</label>
+        <label class="c1">Collection-Agency: {{users.collection}}</label>
+      </div>
+    </div>
+    <div class="l1">
+      <label>From Date : {{users.FromDate}}</label><br />
+      <label>To Date : {{users.ToDate}}</label>
+    </div>
+    <div class="l2">
+      <label>GeneratedBy : {{users.loginUser}}</label><br />
+      <label>GenrateDate : {{users.GeneratedDate}}</label>
+    </div>
+    <div class="l3">
+      <label>Lane : {{users.lane}}</label><br />
+      <label>LaneType : {{users.laneType}}</label>
+    </div>
+    <div class="l4">
+      <label>Payment Type : {{users.paymentType}}</label><br />
+      <label>Plaza Name : {{users.Code}}</label>
+    </div>
+    <div class="table">
+      <hr style="border: 1px solid #808080" />
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Payment Type</th>
+            <th scope="col">CAR\JEEP\VAN</th>
+            <th scope="col">LCV\MINIBUS</th>
+            <th scope="col">BUS2AXLES</th>
+            <th scope="col">TRUCK2AXLES</th>
+            <th scope="col">MAV3AXLES</th>
+            <th scope="col">MAV>3AXLES</th>
+            <th scope="col">Oversized vehicle</th>
+            <th scope="col">Total Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each users.alldata}}
+          <tr>
+            <td>{{ this.PAYMENT_SUBTYPE }}</td>
+            <td>{{ this.CARJEEPVAN }}</td>
+            <td>{{ this.LCVMINIBUS }}</td>
+            <td>{{ this.BUS2AXLES }}</td>
+            <td>{{ this.TRUCK2AXLES }}</td>
+            <td>{{ this.MAV3AXLES }}</td>
+            <td>{{ this.MAV4to6AXLES }}</td>
+            <td>{{ this.Oversized_vehicle }}</td>
+            <td>{{ this.Total }}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
