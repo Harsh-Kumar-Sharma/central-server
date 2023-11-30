@@ -14,9 +14,9 @@ const generateToken = (id, secret = config.jwt.secret) => {
 };
 
 const saveToken = async (token, id, expires) => {
-  const checktoken = await db.tms_all_tokens.findOne({ where: { id: id } });
+  const checktoken = await db.afs_all_tokens.findOne({ where: { id: id } });
   if (checktoken) {
-    await db.tms_all_tokens.update(
+    await db.afs_all_tokens.update(
       {
         id,
         token,
@@ -27,7 +27,7 @@ const saveToken = async (token, id, expires) => {
       { where: { id: id } }
     );
   } else
-    await db.tms_all_tokens.create({
+    await db.afs_all_tokens.create({
       id,
       token,
       expiry: expires,

@@ -5,4 +5,7 @@ export const API_ROUTES = {
   AUTH: {
     LOGIN: "/auth/login",
   },
+  COMMON: {
+    GET_ALL_MASTERS: "/common/getAllMaster",
+  }
 };

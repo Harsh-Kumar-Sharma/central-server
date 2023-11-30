@@ -19,9 +19,6 @@ module.exports = (sequelize, DataTypes) => {
       role_id: {
         type: DataTypes.NUMBER,
       },
-      shift_id: {
-        type: DataTypes.NUMBER,
-      },
       mobile_number: {
         type: DataTypes.STRING,
       },

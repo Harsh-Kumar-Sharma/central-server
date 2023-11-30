@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { useConfigStore } from "@/stores/config";
+import { useMasterData } from "@/stores/common";
 
 const routes = [
   {
@@ -68,9 +69,11 @@ const router = createRouter({
   routes,
 });
 
+
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
   const configStore = useConfigStore();
+  const masterStore = useMasterData() as any;
 
   // current page view title
   document.title = `${to.meta.pageTitle} - ${import.meta.env.VITE_APP_NAME}`;
@@ -85,6 +88,24 @@ router.beforeEach(async (to, from, next) => {
     // before page access check if page requires authentication
     if (to.meta.middleware == "auth") {
       if (authStore.isAuthenticated) {
+        if (masterStore.getMasters) {
+          const allowedModules = masterStore.getMasters.moduleMaster
+            .filter((m) =>
+              authStore.user.info.permissions.modules.find(
+                (um) => um.module_id === m.id
+              )
+            )
+            .map((p) => p.module_name);
+
+          if (
+            allowedModules.indexOf(to.meta.moduleName) === -1 &&
+            !to.meta.subModuleName
+          ) {
+            next({ name: "404" });
+            return;
+          }
+        }
+
         next();
       } else {
         next({ name: "sign-in" });
@@ -105,5 +126,6 @@ router.beforeEach(async (to, from, next) => {
     behavior: "smooth",
   });
 });
+
 
 export default router;

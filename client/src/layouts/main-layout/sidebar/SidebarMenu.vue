@@ -61,23 +61,43 @@
 </template>
 
 <script lang="ts">
-import { getAssetPath } from "@/core/helpers/assets";
 import { defineComponent, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import MainMenuConfig from "@/core/config/MainMenuConfig";
+import MainMenuConfig from "@/core/config/MainMenuConfig.js";
 import { sidebarMenuIcons } from "@/core/helpers/config";
 import { useI18n } from "vue-i18n";
+import { useAuthStore } from "@/stores/auth";
+import { useMasterData } from "@/stores/common";
 
 export default defineComponent({
   name: "sidebar-menu",
   components: {},
-
+  data() {
+    return {
+      authStore: useAuthStore() as any,
+      masters: useMasterData() as any,
+    };
+  },
   computed: {
+    currentUser(): any {
+      return this.authStore.user.info;
+    },
+    userModules(): any {
+      return this.currentUser.permissions.modules;
+    },
+    modules() {
+      return this.masters.getMasters.moduleMaster;
+    },
     availableMenu(): any {
-      const filterUserMenu = this.MainMenuConfig;
+      const filterUserMenu = this.modules
+        ? this.modules.filter((m) =>
+          this.userModules.find((um) => um.module_id === m.id)
+        )
+        : [];
       const filteredMenu = this.MainMenuConfig[0]?.pages?.filter((p) =>
         filterUserMenu.find((m) => m.module_name === p.heading)
       );
+      console.log(this.userModules)
       return [{ ...this.MainMenuConfig, pages: filteredMenu }];
     },
   },
@@ -109,7 +129,6 @@ export default defineComponent({
       MainMenuConfig,
       sidebarMenuIcons,
       translate,
-      getAssetPath,
     };
   },
 });

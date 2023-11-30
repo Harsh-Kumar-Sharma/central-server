@@ -10,7 +10,6 @@ const createUser = {
     username: Joi.string().required(),
     password: Joi.string().required(),
     role_id: Joi.number().required(),
-    shift_id: Joi.number().required(),
   }),
 };
 

@@ -170,7 +170,6 @@ export default defineComponent({
       this.updateUser.roleId = this.userData?.role_id;
       this.updateUser.email = this.userData?.email;
       this.updateUser.mobNo = this.userData?.mobile_number;
-      this.updateUser.shiftId = this.userData?.shift_id;
     }
   },
   methods: {

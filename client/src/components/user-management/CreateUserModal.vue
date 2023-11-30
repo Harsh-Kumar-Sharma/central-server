@@ -168,7 +168,6 @@ export default defineComponent({
           last_name: this.createUser.lastName,
           username: this.createUser.username,
           mobile_number: this.createUser.mobNo,
-          shift_id: this.createUser.shift,
           email: this.createUser.email,
           role_id: this.createUser.role,
           password: this.createUser.password,
