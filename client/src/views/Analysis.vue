@@ -1,0 +1,38 @@
+<template>
+    <div>
+        <div :class="`page-title d-flex flex-stack flex-wrap mb-5`">
+            <h2 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                Analysis
+            </h2>
+        </div>
+
+        <!--begin::Navs-->
+        <div class="d-flex overflow-auto h-55px">
+            <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bold flex-nowrap">
+                <!--begin::Nav item-->
+                <li class="nav-item">
+                    <router-link to="/server-transaction" class="nav-link text-active-primary me-6" active-class="active">
+                        Server Transaction
+                    </router-link>
+                </li>
+                <!--end::Nav item-->
+                <!--begin::Nav item-->
+                <li class="nav-item">
+                    <router-link to="/lane-transaction" class="nav-link text-active-primary me-6" active-class="active">
+                        Plaza Transaction
+                    </router-link>
+                </li>
+            </ul>
+        </div>
+        <!--begin::Navs-->
+    </div>
+    <router-view />
+</template>
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+    name: "widgets-tables",
+    components: {},
+});
+</script>

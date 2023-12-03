@@ -6,28 +6,18 @@ import axios from "axios";
 export const dashboardStats = defineStore("dashboardStats", {
   state: () => ({
     statistics: [],
-    CountTranscationData: {}
   }),
   getters: {
     getStatistics(state) {
       return state.statistics;
     },
-    getCountTranscation(state) {
-      return state.CountTranscationData
-    }
   },
   actions: {
-    async getStatisticsData() {
-      const res = await axios.get(
-        `${BASE_URL}${API_ROUTES.DASHBOARD.STATISTICS}`
+    async getStatisticsData(duration) {
+      const res = await axios.post(
+        `${BASE_URL}${API_ROUTES.DASHBOARD.STATISTICS}`, duration
       );
-      this.statistics = res.data.data;
-    },
-    async getCountTranscationData(duration) {
-      const res = await axios.get(
-        `${BASE_URL}${API_ROUTES.DASHBOARD.COUNTTRANSCATION}/${duration}`
-      );
-      this.CountTranscationData = res.data;
+      this.statistics = res.data;
 
     },
   },

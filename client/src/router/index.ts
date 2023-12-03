@@ -59,6 +59,47 @@ const routes = [
     ],
   },
   {
+    path: "/analysis",
+    component: () => import("@/layouts/main-layout/MainLayout.vue"),
+    meta: {
+      middleware: "auth",
+      moduleName: "Analysis",
+    },
+    children: [
+      {
+        path: "/analysis",
+        name: "Analysis",
+        component: () => import("@/views/Analysis.vue"),
+        meta: {
+          pageTitle: "Analysis",
+          moduleName: "Analysis",
+        },
+        children: [
+          {
+            path: "/server-transaction",
+            name: "Server Transaction",
+            component: () =>
+              import("@/components/Analysis/serverTransaction.vue"),
+            meta: {
+              pageTitle: "Server Transaction",
+              subModuleName: "Analysis",
+            },
+          },
+          {
+            path: "/lane-transaction",
+            name: "Lane Transaction",
+            component: () =>
+              import("@/components/Analysis/laneTransaction.vue"),
+            meta: {
+              pageTitle: "Lane Transaction",
+              subModuleName: "Analysis",
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
     path: "/:pathMatch(.*)*",
     redirect: "/404",
   },

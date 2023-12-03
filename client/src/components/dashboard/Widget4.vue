@@ -1,109 +1,143 @@
 <template>
-  <!--begin::Table Widget 6-->
-  <div :class="widgetClasses" class="card" style="height: 500px">
+  <!--begin::List Widget 6-->
+  <div class="card" :class="widgetClasses" style="height:590px;">
     <!--begin::Header-->
-    <div class="card-header border-0 pt-5">
-      <h3 class="card-title align-items-start flex-column">
-        <span class="card-label fw-bold fs-3 mb-1">Last Five Transactions</span>
-      </h3>
+    <div class="card-header border-0">
+      <h3 class="card-title fw-bold text-dark">Plaza Total Transaction Count</h3>
+      <!--end::Header-->
     </div>
-    <!--end::Header-->
+
+    <!-- loader -->
     <div v-if="loader">
       <Loader />
     </div>
-    <!--begin::Body-->
-    <div class="card-body py-3 pt-4" v-else>
-      <div class="tab-content">
-        <!--begin::Tap pane-->
 
-        <!--begin::Table container-->
-        <div class="table-responsive">
-          <!--begin::Table-->
-          <table class="table align-middle gs-0 gy-3">
-            <!--begin::Table head-->
-            <thead>
-              <tr>
-                <th class="ps-5 w-50px text-gray-600 fw-bold fs-8">
-                  Plate Num
-                </th>
-                <th class="ps-2 min-w-50px text-gray-600 fw-bold fs-8">
-                  Payment
-                </th>
-                <th class="ps-10 min-w-180px text-gray-600 fw-bold fs-8">
-                  Timing
-                </th>
-                <th class="ps-20 min-w-50px text-gray-600 fw-bold fs-8">Fee</th>
-              </tr>
-            </thead>
-            <!--end::Table head-->
-            <div class="separator separator-dashed"></div>
-            <!--begin::Table body-->
-            <tbody v-for="(item, index) in lastTransaction" :key="index">
-              <tr>
-                <td>
-                  <a class="text-dark fw-bold mb-1 fs-7 ms-5">{{
-                    item.TAG_PLATE
-                  }}</a>
-                </td>
-                <td>
-                  <span class="text-dark fw-bold d-block fs-7 text-center">{{
-                    item.PAYMENT_TYPE
-                  }}</span>
-                </td>
-                <td>
-                  <span class="text-dark fw-bold d-block fs-7 text-center">{{
-                    new Date(item.PASSAGE_TIME).toLocaleString("en-GB", {
-                      timeZone: "UTC",
-                    })
-                  }}</span>
-                </td>
-                <td class="text-end">
-                  <span class="fs-7 fw-bold text-primary">{{
-                    item.CLASS_FARE
-                  }}</span>
-                </td>
-              </tr>
-            </tbody>
-            <!--end::Table body-->
-          </table>
+    <!--begin::Body-->
+    <div class="card-body" v-else>
+      <template v-for="(item, index) in list" :key="index">
+        <!--begin::Item-->
+        <div :class="[
+          'mb-7' && list.length - 1 !== index,
+          `bg-light-${item.color}`,
+        ]" class="d-flex align-items-center rounded p-3 mb-4">
+          <KTIcon icon-name="abstract-26" :icon-class="`text-${item.color} fs-1 me-5`" />
+
+          <!--begin::Title-->
+          <div class="flex-grow-1 me-2">
+            <span class="fw-bold text-gray-800 text-hover-primary fs-6">
+              {{ item.title }}
+            </span>
+          </div>
+          <!--end::Title-->
+
+          <!--begin::Lable-->
+          <span :class="`text-${item.color}`" class="fw-bold py-1">{{
+            item.number
+          }}</span>
+          <!--end::Lable-->
         </div>
-        <!--end::Table-->
-      </div>
+        <!--end::Item-->
+      </template>
     </div>
     <!--end::Body-->
   </div>
-  <!--end::Tables Widget 6-->
+  <!--end::List Widget 6-->
 </template>
 
+
 <script lang="ts">
-import { defineComponent } from "vue";
+import { getAssetPath } from "@/core/helpers/assets";
+import { defineComponent, ref } from "vue";
 import { dashboardStats } from "../../stores/dashboard";
 import Loader from "@/layouts/Loader.vue";
 const dashboardStore = dashboardStats();
 
 export default defineComponent({
   name: "kt-widget-6",
-  components: { Loader },
+  components: {
+    Loader,
+  },
   props: {
     widgetClasses: String,
   },
+
   data() {
     return {
       loader: true,
-      transaction: <any>[],
-      lastTransaction: <any>{},
+      statistics: <any>[],
+      list: [
+        {
+          color: "success",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Total Transactions",
+          number: null,
+        },
+        {
+          color: "dark",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Sarai Kale Khan Plaza",
+          number: null,
+        },
+        {
+          color: "dark",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Indirapuram Plaza",
+          number: null,
+        },
+        {
+          color: "dark",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Dundahera Plaza",
+          number: null,
+        },
+        {
+          color: "dark",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Dasna Plaza",
+          number: null,
+        },
+        {
+          color: "info",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Rasoolpur Sikrod Plaza",
+          number: null,
+        },
+        {
+          color: "info",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Bhojpur Plaza",
+          number: null,
+        },
+        {
+          color: "info",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Kashi Plaza",
+          number: null,
+        }
+      ],
     };
   },
+
   computed: {
-    getLastFiveTransaction() {
+    getStatisticsData() {
       return dashboardStore.getStatistics;
     },
   },
+
   watch: {
-    getLastFiveTransaction: function () {
-      this.transaction = this.getLastFiveTransaction;
-      this.lastTransaction = this.transaction.lastFiveTransaction;
-      this.loader = false;
+    getStatisticsData: function () {
+      this.statistics = this.getStatisticsData;
+      if (this.statistics.plazaWiseCount) {
+        this.loader = false;
+        this.list[0].number = this.statistics.plazaWiseCount.totalCount
+        this.list[1].number = this.statistics.plazaWiseCount.SaraiKaleKhan
+        this.list[2].number = this.statistics.plazaWiseCount.Indirapuram
+        this.list[3].number = this.statistics.plazaWiseCount.Dundahera
+        this.list[4].number = this.statistics.plazaWiseCount.Dasna
+        this.list[5].number = this.statistics.plazaWiseCount.RasoolpurSikrod
+        this.list[6].number = this.statistics.plazaWiseCount.Bhojpur
+        this.list[7].number = this.statistics.plazaWiseCount.Kashi
+      }
     },
   },
 });

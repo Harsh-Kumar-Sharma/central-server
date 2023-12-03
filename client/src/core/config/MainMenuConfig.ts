@@ -15,6 +15,11 @@ const MainMenuConfig: Array<MenuItem> = [
         heading: "Dashboard",
         route: "/dashboard",
         bootstrapIcon: "bi-house",
+      },
+      {
+        heading: "Analysis",
+        route: "/server-transaction",
+        bootstrapIcon: "bi-graph-up",
       }
     ],
   },

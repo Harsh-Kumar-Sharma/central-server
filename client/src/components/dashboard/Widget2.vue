@@ -1,149 +1,143 @@
 <template>
-  <!--begin::Mixed Widget 10-->
-  <div :class="widgetClasses" class="card" style="height: 580px">
-    <div class="card-header border-0 mb-xl-5">
-      <h3 class="card-title align-items-start flex-column">
-        <span class="card-label fw-bold fs-3 mb-1">
-          Vehicle Classification
-        </span>
-      </h3>
+  <!--begin::List Widget 6-->
+  <div class="card" :class="widgetClasses" style="height:590px;">
+    <!--begin::Header-->
+    <div class="card-header border-0">
+      <h3 class="card-title fw-bold text-dark">Plaza Exit Transaction Count</h3>
+      <!--end::Header-->
     </div>
 
+    <!-- loader -->
     <div v-if="loader">
       <Loader />
     </div>
 
     <!--begin::Body-->
-    <div class="card-body p-5" v-else>
-      <!--begin::Chart-->
-      <apexchart type="donut" height="200" :options="chartOptions" :series="series" class="mb-5"></apexchart>
-      <!--end::Chart-->
+    <div class="card-body" v-else>
+      <template v-for="(item, index) in list" :key="index">
+        <!--begin::Item-->
+        <div :class="[
+          'mb-7' && list.length - 1 !== index,
+          `bg-light-${item.color}`,
+        ]" class="d-flex align-items-center rounded p-3 mb-4">
+          <KTIcon icon-name="abstract-26" :icon-class="`text-${item.color} fs-1 me-5`" />
 
-      <ul v-for="(value, name, index) in vehicleData">
-        <li>
-          <div class="d-flex flex-column content-justify-center flex-row-fluid">
-            <!--begin::Label-->
-            <div class="d-flex fw-semibold align-items-center">
-              <!--begin::Bullet-->
-              <div class="bullet w-8px h-3px rounded-2 bg-success me-3"></div>
-              <!--end::Bullet-->
-
-              <!--begin::Label-->
-              <div class="text-gray-500 flex-grow-1 me-4">
-                {{ name }}
-              </div>
-              <!--end::Label-->
-
-              <!--begin::Stats-->
-              <div class="fw-bolder text-gray-700 text-xxl-end">
-                {{ value }}
-              </div>
-              <!--end::Stats-->
-            </div>
-            <!--end::Label-->
+          <!--begin::Title-->
+          <div class="flex-grow-1 me-2">
+            <span class="fw-bold text-gray-800 text-hover-primary fs-6">
+              {{ item.title }}
+            </span>
           </div>
-        </li>
-      </ul>
+          <!--end::Title-->
+
+          <!--begin::Lable-->
+          <span :class="`text-${item.color}`" class="fw-bold py-1">{{
+            item.number
+          }}</span>
+          <!--end::Lable-->
+        </div>
+        <!--end::Item-->
+      </template>
     </div>
+    <!--end::Body-->
   </div>
-  <!--end::Mixed Widget 10-->
+  <!--end::List Widget 6-->
 </template>
 
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { dashboardStats } from "../../stores/dashboard";
-const dashboardStore = dashboardStats();
 import Loader from "@/layouts/Loader.vue";
+const dashboardStore = dashboardStats();
 
 export default defineComponent({
-  name: "default-dashboard-widget-5",
+  name: "kt-widget-6",
   components: {
     Loader,
   },
+  props: {
+    widgetClasses: String,
+  },
+
   data() {
     return {
       loader: true,
-      vehicleData: <any>[],
-      series: <any>[],
-      chartOptions: {
-        chart: {
-          height: 500,
-          type: "polarArea",
-          foreColor: "#ccc",
+      statistics: <any>[],
+      list: [
+        {
+          color: "success",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Total Transactions",
+          number: null,
         },
-        dataLabels: {
-          enabled: false,
+        {
+          color: "dark",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Sarai Kale Khan Plaza",
+          number: null,
         },
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 300,
-              },
-            },
-          },
-        ],
-        plotOptions: {
-          polarArea: {
-            rings: {
-              strokeWidth: 1,
-              strokeColor: "",
-            },
-            spokes: {
-              strokeWidth: 1,
-              connectorColors: "",
-            },
-          },
+        {
+          color: "dark",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Indirapuram Plaza",
+          number: null,
         },
-        labels: <any>[],
-        fill: {
-          opacity: 1,
+        {
+          color: "dark",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Dundahera Plaza",
+          number: null,
         },
-        stroke: {
-          show: true,
-          curve: "smooth",
-          lineCap: "round",
-          colors: "#1E1E2D",
-          width: 2,
-          dashArray: 0,
+        {
+          color: "dark",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Dasna Plaza",
+          number: null,
         },
-      },
+        {
+          color: "info",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Rasoolpur Sikrod Plaza",
+          number: null,
+        },
+        {
+          color: "info",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Bhojpur Plaza",
+          number: null,
+        },
+        {
+          color: "info",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Kashi Plaza",
+          number: null,
+        }
+      ],
     };
-  },
-  props: {
-    widgetClasses: String,
-    chartColor: String,
-    chartHeight: String,
   },
 
   computed: {
-    getTransactionStatus(): any {
-      return dashboardStore.getCountTranscation;
+    getStatisticsData() {
+      return dashboardStore.getStatistics;
     },
   },
 
   watch: {
-    getTransactionStatus: function () {
-      this.getChartData();
-    },
-  },
-  methods: {
-    async getChartData() {
-      if (this.getTransactionStatus.vehicleClassification) {
+    getStatisticsData: function () {
+      this.statistics = this.getStatisticsData;
+      if (this.statistics.plazaWiseCountExit) {
         this.loader = false;
-        this.vehicleData = this.getTransactionStatus.vehicleClassification;
-        this.chartOptions.labels = Object.keys(this.vehicleData);
-        this.series = Object.values(this.vehicleData);
+        this.list[0].number = this.statistics.plazaWiseCountExit.totalCount
+        this.list[1].number = this.statistics.plazaWiseCountExit.SaraiKaleKhan
+        this.list[2].number = this.statistics.plazaWiseCountExit.Indirapuram
+        this.list[3].number = this.statistics.plazaWiseCountExit.Dundahera
+        this.list[4].number = this.statistics.plazaWiseCountExit.Dasna
+        this.list[5].number = this.statistics.plazaWiseCountExit.RasoolpurSikrod
+        this.list[6].number = this.statistics.plazaWiseCountExit.Bhojpur
+        this.list[7].number = this.statistics.plazaWiseCountExit.Kashi
       }
     },
   },
 });
 </script>
-
-<style>
-ul {
-  list-style-type: none;
-}
-</style>

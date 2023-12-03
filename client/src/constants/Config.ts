@@ -7,5 +7,8 @@ export const API_ROUTES = {
   },
   COMMON: {
     GET_ALL_MASTERS: "/common/getAllMaster",
-  }
+  },
+  DASHBOARD: {
+    STATISTICS: "/dashboard/getAllStatistics",
+  },
 };

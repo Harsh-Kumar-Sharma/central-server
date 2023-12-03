@@ -166,7 +166,7 @@ export default defineComponent({
       this.updateUser.id = this.userData?.id;
       this.updateUser.firstName = this.userData?.first_name;
       this.updateUser.lastName = this.userData?.last_name;
-      this.updateUser.username = this.userData?.tms_login?.username;
+      this.updateUser.username = this.userData?.afs_login?.username;
       this.updateUser.roleId = this.userData?.role_id;
       this.updateUser.email = this.userData?.email;
       this.updateUser.mobNo = this.userData?.mobile_number;

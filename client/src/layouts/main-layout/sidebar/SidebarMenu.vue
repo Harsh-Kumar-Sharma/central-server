@@ -97,7 +97,6 @@ export default defineComponent({
       const filteredMenu = this.MainMenuConfig[0]?.pages?.filter((p) =>
         filterUserMenu.find((m) => m.module_name === p.heading)
       );
-      console.log(this.userModules)
       return [{ ...this.MainMenuConfig, pages: filteredMenu }];
     },
   },

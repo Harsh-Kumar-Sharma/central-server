@@ -1,83 +1,158 @@
 <template>
-  <!--begin::Mixed Widget 14-->
-  <div
-    :class="widgetClasses"
-    class="card theme-dark-bg-body"
-    :style="`background-color: ${widgetColor}`"
-    style="height: 500px"
-  >
+  <!--begin::Mixed Widget 10-->
+  <div :class="widgetClasses" class="card" style="height: 590px">
+    <div class="card-header border-0 mb-xl-5">
+      <h3 class="card-title align-items-start flex-column">
+        <span class="card-label fw-bold fs-3 mb-1">
+          Vehicle Classification
+        </span>
+      </h3>
+    </div>
+
+    <div v-if="loader">
+      <Loader />
+    </div>
+
     <!--begin::Body-->
-    <div class="card-body d-flex flex-column">
-      <div class="d-flex flex-column mb-7">
-        <!--begin::Title-->
-        <h3 class="card-title fw-bold text-dark">Users & Shifts</h3>
-        <!--end::Title-->
-      </div>
-      <div v-if="loader">
-        <Loader />
-      </div>
-      <div v-else>
-        <div class="row m-0 pt-5">
-          <div class="col-12 bg-light-primary px-6 py-8 rounded-2 me-7 mb-7">
-            <div>
-              <KTIcon
-                icon-name="abstract-26"
-                :icon-class="`text-primary fs-1 me-5`"
-              />
+    <div class="card-body p-5" v-else>
+      <!--begin::Chart-->
+      <apexchart type="donut" height="200" :options="chartOptions" :series="series" class="mb-5"></apexchart>
+      <!--end::Chart-->
+
+      <ul v-for="(value, name, index) in vehicleData">
+        <li>
+          <div class="d-flex flex-column content-justify-center flex-row-fluid">
+            <!--begin::Label-->
+            <div class="d-flex fw-semibold align-items-center">
+              <!--begin::Bullet-->
+              <div class="bullet w-8px h-3px rounded-2 bg-success me-3"></div>
+              <!--end::Bullet-->
+
+              <!--begin::Label-->
+              <div class="text-gray-500 flex-grow-1 me-4">
+                {{ name }}
+              </div>
+              <!--end::Label-->
+              <!--begin::Stats-->
+              <div class="fw-bolder  text-primary flex-grow-1 me-4">
+                ({{ (value / total * 100).toFixed(2) + "%" }})
+              </div>
+              <div class="fw-bolder text-gray-700 text-xxl-end">
+                {{ value }}
+              </div>
+              <!--end::Stats-->
             </div>
-            <a class="text-dark fw-bold fs-3">Total Users</a>
-            <a class="text-dark fw-bold fs-2 float-end">{{
-              usersShift.totalUsers
-            }}</a>
+            <!--end::Label-->
           </div>
-          <div class="col-12 bg-light-danger px-6 py-8 rounded-2 me-7 mb-7">
-            <div>
-              <KTIcon icon-name="time" :icon-class="`text-danger fs-1 me-5`" />
-            </div>
-            <a class="text-dark fw-bold fs-3">Shifts</a>
-            <a class="text-dark fw-bold fs-2 float-end">{{
-              usersShift.totalShift
-            }}</a>
-          </div>
-        </div>
-      </div>
-      <!--begin::Row-->
+        </li>
+      </ul>
     </div>
   </div>
-  <!--end::Mixed Widget 14-->
+  <!--end::Mixed Widget 10-->
 </template>
 
 <script lang="ts">
+import { getAssetPath } from "@/core/helpers/assets";
 import { defineComponent } from "vue";
 import { dashboardStats } from "../../stores/dashboard";
-import Loader from "@/layouts/Loader.vue";
 const dashboardStore = dashboardStats();
+import Loader from "@/layouts/Loader.vue";
 
 export default defineComponent({
-  name: "widget-14",
-  props: {
-    widgetClasses: String,
-    widgetColor: String,
+  name: "default-dashboard-widget-5",
+  components: {
+    Loader,
   },
-  components: { Loader },
   data() {
     return {
       loader: true,
-      data: <any>[],
-      usersShift: <any>[],
+      vehicleData: <any>[],
+      series: <any>[],
+      chartOptions: {
+        chart: {
+          height: 500,
+          type: "polarArea",
+          foreColor: "#ccc",
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 300,
+              },
+            },
+          },
+        ],
+        plotOptions: {
+          polarArea: {
+            rings: {
+              strokeWidth: 1,
+              strokeColor: "",
+            },
+            spokes: {
+              strokeWidth: 1,
+              connectorColors: "",
+            },
+          },
+        },
+        labels: <any>[],
+        fill: {
+          opacity: 1,
+        },
+        stroke: {
+          show: true,
+          curve: "smooth",
+          lineCap: "round",
+          colors: "#1E1E2D",
+          width: 2,
+          dashArray: 0,
+        },
+      },
     };
   },
+  props: {
+    widgetClasses: String,
+    chartColor: String,
+    chartHeight: String,
+  },
+
   computed: {
-    getUsersShift() {
+    getTransactionStatus(): any {
       return dashboardStore.getStatistics;
     },
+    total(): any {
+      let sum = 0;
+      for (let val of this.series) {
+        sum += val;
+      }
+      return sum;
+    }
   },
+
   watch: {
-    getUsersShift: function () {
-      this.data = this.getUsersShift;
-      this.usersShift = this.data.userAndShiftInformation;
-      this.loader = false;
+    getTransactionStatus: function () {
+      this.getChartData();
+    },
+  },
+  methods: {
+    async getChartData() {
+      if (this.getTransactionStatus.merageTransactionVehicle) {
+        this.loader = false;
+        this.vehicleData = this.getTransactionStatus.merageTransactionVehicle;
+        this.chartOptions.labels = Object.keys(this.vehicleData);
+        this.series = Object.values(this.vehicleData);
+      }
     },
   },
 });
 </script>
+
+<style>
+ul {
+  list-style-type: none;
+}
+</style>

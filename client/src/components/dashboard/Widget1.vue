@@ -1,26 +1,10 @@
 <template>
   <!--begin::List Widget 6-->
-  <div class="card" :class="widgetClasses" style="height: 580px">
+  <div class="card" :class="widgetClasses" style="height:590px;">
     <!--begin::Header-->
     <div class="card-header border-0">
-      <h3 class="card-title fw-bold text-dark">Transaction Status</h3>
+      <h3 class="card-title fw-bold text-dark">Plaza Entry Transaction Count</h3>
       <!--end::Header-->
-      <div class="d-flex flex-wrap my-1 mt-4">
-        <!--begin::Select wrapper-->
-        <div class="m-0">
-          <!--begin::Select-->
-          <select name="status" v-model="durationTime" @change="duration" data-hide-search="true"
-            class="form-select form-select-white form-select-sm fw-bold w-125px">
-            <option value="DAY" selected>DAY</option>
-            <option value="WEEK">WEEK</option>
-            <option value="MONTH">MONTH</option>
-            <option value="YEAR">YEAR</option>
-          </select>
-          <!--end::Select-->
-        </div>
-        <!--end::Select wrapper-->
-      </div>
-      <!--end::Controls-->
     </div>
 
     <!-- loader -->
@@ -63,7 +47,6 @@
 <script lang="ts">
 import { getAssetPath } from "@/core/helpers/assets";
 import { defineComponent, ref } from "vue";
-import Dropdown3 from "@/components/dropdown/Dropdown3.vue";
 import { dashboardStats } from "../../stores/dashboard";
 import Loader from "@/layouts/Loader.vue";
 const dashboardStore = dashboardStats();
@@ -71,7 +54,6 @@ const dashboardStore = dashboardStats();
 export default defineComponent({
   name: "kt-widget-6",
   components: {
-    Dropdown3,
     Loader,
   },
   props: {
@@ -82,80 +64,80 @@ export default defineComponent({
     return {
       loader: true,
       statistics: <any>[],
-      durationTime: "DAY",
       list: [
         {
-          color: "primary",
+          color: "success",
           icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
           title: "Total Transactions",
           number: null,
         },
         {
-          color: "warning",
-          icon: getAssetPath("media/icons/duotune/abstract/abs027.svg"),
-          title: "FASTag Transactions",
-          number: null,
-        },
-        {
-          color: "success",
-          icon: getAssetPath("media/icons/duotune/art/art005.svg"),
-          title: "Cash Transactions",
-          number: null,
-        },
-        {
-          color: "danger",
+          color: "dark",
           icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
-          title: "Exempt Transactions",
-          number: null,
-        },
-        {
-          color: "info",
-          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
-          title: "Convoy Transactions",
-          number: null,
-        },
-        {
-          color: "danger",
-          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
-          title: "Voilation Transactions",
+          title: "Sarai Kale Khan Plaza",
           number: null,
         },
         {
           color: "dark",
           icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
-          title: "Cancel Payment",
+          title: "Indirapuram Plaza",
           number: null,
         },
+        {
+          color: "dark",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Dundahera Plaza",
+          number: null,
+        },
+        {
+          color: "dark",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Dasna Plaza",
+          number: null,
+        },
+        {
+          color: "info",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Rasoolpur Sikrod Plaza",
+          number: null,
+        },
+        {
+          color: "info",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Bhojpur Plaza",
+          number: null,
+        },
+        {
+          color: "info",
+          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
+          title: "Kashi Plaza",
+          number: null,
+        }
       ],
     };
   },
 
   computed: {
-    getTransactionStatus() {
-      return dashboardStore.getCountTranscation;
+    getStatisticsData() {
+      return dashboardStore.getStatistics;
     },
   },
 
   watch: {
-    getTransactionStatus: function () {
-      this.statistics = this.getTransactionStatus;
-      if (this.statistics.transactionStatus) {
+    getStatisticsData: function () {
+      this.statistics = this.getStatisticsData;
+      if (this.statistics.plazaWiseCountEntry) {
         this.loader = false;
-        this.list[0].number = this.statistics.transactionStatus.totalCount;
-        this.list[1].number = this.statistics.transactionStatus.FASTag;
-        this.list[2].number = this.statistics.transactionStatus.Cash;
-        this.list[3].number = this.statistics.transactionStatus.Exempt;
-        this.list[4].number = this.statistics.transactionStatus.Convoy;
-        this.list[5].number = this.statistics.transactionStatus.Voilation;
-        this.list[6].number = this.statistics.transactionStatus.CancelPayment;
+        this.list[0].number = this.statistics.plazaWiseCountEntry.totalCount
+        this.list[1].number = this.statistics.plazaWiseCountEntry.SaraiKaleKhan
+        this.list[2].number = this.statistics.plazaWiseCountEntry.Indirapuram
+        this.list[3].number = this.statistics.plazaWiseCountEntry.Dundahera
+        this.list[4].number = this.statistics.plazaWiseCountEntry.Dasna
+        this.list[5].number = this.statistics.plazaWiseCountEntry.RasoolpurSikrod
+        this.list[6].number = this.statistics.plazaWiseCountEntry.Bhojpur
+        this.list[7].number = this.statistics.plazaWiseCountEntry.Kashi
       }
     },
   },
-  methods: {
-    async duration() {
-      this.loader = true;
-      await dashboardStore.getCountTranscationData(this.durationTime);
-    }
-  }
 });
 </script>

@@ -3,7 +3,7 @@
     <VForm id="kt_login_signin_form" @submit="onSubmitLogin" :validation-schema="login"
       :initial-values="{ username: '', password: '' }" class="form w-100">
       <div class="text-center mb-11">
-        <h1 class="text-dark fw-bolder mb-3 sajag-login-text">TMS Admin</h1>
+        <h1 class="text-dark fw-bolder mb-3 sajag-login-text">AFS Admin</h1>
         <div class="text-white-500 fw-semibold fs-2">Account Login</div>
       </div>
       <div class="separator separator-content my-14">
