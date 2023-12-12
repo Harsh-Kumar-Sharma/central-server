@@ -19,6 +19,9 @@ module.exports = (sequelize, DataTypes) => {
       download_url: {
         type: DataTypes.STRING,
       },
+      download_Status: {
+        type: DataTypes.BOOLEAN
+      }
     },
     {
       sequelize,

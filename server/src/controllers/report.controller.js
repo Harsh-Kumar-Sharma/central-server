@@ -18,40 +18,20 @@ const getAllReports = catchAsync(async (req, res) => {
 });
 
 
-const getRevenueTransaction = catchAsync (async (req,res,next)=>{
-  const { reportType } = req.body;
-  let data=null
-      if (reportType === "PaymentType-Wise"){
-        data = await reportService.getRevenueTransaction(req.body);
-      }
-      else if (reportType === "LaneAndDate-Wise"){
-     data = await reportService.getRevenueLaneWise(req.body);
-      }
-      else if (reportType === "CountWithRevanue-Wise"){
-        data = await reportService.getCountWithRevenue(req.body);
-         }
-      else{
-       data = await reportService.getCountClassWiseAndDateWise(req.body);
-      }
-  res.status(200).json({
-    status: 'sucess',
-    data:data
-  })
-})
 
 //get All Type Of Count Using This Controller
 const getTransactionCount = catchAsync(async (req, res, next) => {
   const { reportType } = req.body;
-  let data=null
-      if (reportType === "PaymentType-Wise"){
-        data = await reportService.getTransactionCount(req.body);
-      }
-      else if (reportType === "LaneAndDate-Wise"){
-     data = await reportService.getCountLaneAndDateWise(req.body);
-      }
-      else{
-       data = await reportService.getCountClassWiseAndDateWise(req.body);
-      }
+  let data = null
+  if (reportType === "PaymentType-Wise") {
+    data = await reportService.getTransactionCount(req.body);
+  }
+  else if (reportType === "LaneAndDate-Wise") {
+    data = await reportService.getCountLaneAndDateWise(req.body);
+  }
+  else {
+    data = await reportService.getCountClassWiseAndDateWise(req.body);
+  }
 
   res.status(200).json({
     status: 'sucess',
@@ -59,32 +39,16 @@ const getTransactionCount = catchAsync(async (req, res, next) => {
   });
 });
 
-const getAvcTransaction = catchAsync (async (req,res,next)=>{
-  const {reportType} = req.body
-  let data = null
-  if (reportType == 'Default') {
-     data = await reportService.getAvcTransaction(req.body);
-}
-else {
-   data = await reportService.getAvcTransaction(req.body);
-}
-  res.status(200).json({
-    status: 'sucess',
-    data:data
-  })
-})
 
 const deleteFile = catchAsync(async (req, res) => {
   const allReports = await reportService.deleteFile();
   res.status(200).json({
     data: allReports,
   });
-}); 
+});
 module.exports = {
   generateReports,
   getAllReports,
   getTransactionCount,
-  getRevenueTransaction,
-  getAvcTransaction,
   deleteFile
 };

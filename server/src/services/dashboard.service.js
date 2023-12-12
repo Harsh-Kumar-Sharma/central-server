@@ -43,7 +43,7 @@ const plazaWiseCountExit = async (duration) => {
 SUM(CASE WHEN PLAZA_CODE = '320112' THEN 1 ELSE 0 END) AS 'Kashi',
   COUNT(PLAZA_CODE) AS 'totalCount'
 FROM TBL_SLAVE_TRANS AS TS
-WHERE ${condition} LANE_TYPE ='Ex';`)
+WHERE ${condition} LANE_TYPE ='EX';`)
 
   return plazaWiseCountExit[0][0];
 };
@@ -87,7 +87,7 @@ const plazaWiseCountEntry = async (duration) => {
 SUM(CASE WHEN PLAZA_CODE = '320112' THEN 1 ELSE 0 END) AS 'Kashi',
   COUNT(PLAZA_CODE) AS 'totalCount'
 FROM TBL_SLAVE_TRANS AS TS
-WHERE ${condition} LANE_TYPE ='Ex';`)
+WHERE ${condition} LANE_TYPE ='EN';`)
 
   return plazaWiseCountEntry[0][0];
 };
@@ -131,7 +131,7 @@ const plazaWiseCount = async (duration) => {
 SUM(CASE WHEN PLAZA_CODE = '320112' THEN 1 ELSE 0 END) AS 'Kashi',
   COUNT(PLAZA_CODE) AS 'totalCount'
 FROM TBL_SLAVE_TRANS AS TS
-WHERE ${condition} LANE_TYPE ='Ex';`)
+WHERE ${condition} 1=1;`)
 
   return plazaWiseCount[0][0];
 };

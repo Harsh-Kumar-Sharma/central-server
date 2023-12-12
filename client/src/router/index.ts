@@ -32,6 +32,9 @@ const routes = [
   {
     path: "/dashboard",
     component: () => import("@/layouts/main-layout/MainLayout.vue"),
+    meta: {
+      middleware: "auth",
+    },
     children: [
       {
         path: "/dashboard",
@@ -41,7 +44,67 @@ const routes = [
           pageTitle: "Dashboard",
           moduleName: "Dashboard",
         },
-      }
+      },
+      {
+        path: "/reports",
+        component: () => import("@/views/TmsReports.vue"),
+        meta: {
+          middleware: "auth",
+          moduleName: "TMS Reports",
+        },
+        children: [
+          {
+            path: "/transaction-details-report",
+            name: "transactionDetailsReport",
+            component: () =>
+              import("@/components/tms-report/transactionDetails.vue"),
+            meta: {
+              pageTitle: "Reports - Transaction Details Report",
+              subModuleName: "Transaction Details Report",
+            },
+          },
+          {
+            path: "/transaction-summary-report",
+            name: "VehicleSummaryReport",
+            component: () =>
+              import("@/components/tms-report/transactionSummary.vue"),
+            meta: {
+              pageTitle: "Reports - Transaction Summary Report",
+              subModuleName: "Transaction Summary Report",
+            },
+          },
+          {
+            path: "/transaction-revenue-report",
+            name: "VehicleRevenueReport",
+            component: () =>
+              import("@/components/tms-report/revenueSummary.vue"),
+            meta: {
+              pageTitle: "Reports - Transaction Revenue Report",
+              subModuleName: "Transaction Revenue Report",
+            },
+          },
+          {
+            path: "/transaction-avc-report",
+            name: "AvcRevenueReport",
+            component: () =>
+              import("@/components/tms-report/AvcFilter.vue"),
+            meta: {
+              pageTitle: "Reports - Transaction Avc Report",
+              subModuleName: "Transaction Avc Report",
+            },
+          },
+          {
+            path: "/download-reports",
+            name: "downloadReport",
+            component: () =>
+              import("@/components/tms-report/downloadReport.vue"),
+            meta: {
+              pageTitle: "Download-Reports",
+              subModuleName: "Download Report",
+            },
+          },
+        ],
+      },
     ],
   },
   {

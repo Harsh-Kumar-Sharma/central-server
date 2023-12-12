@@ -17,6 +17,11 @@ const MainMenuConfig: Array<MenuItem> = [
         bootstrapIcon: "bi-house",
       },
       {
+        heading: "TMS Reports",
+        route: "/transaction-details-report",
+        bootstrapIcon: "bi-file-earmark-check-fill",
+      },
+      {
         heading: "Analysis",
         route: "/server-transaction",
         bootstrapIcon: "bi-graph-up",

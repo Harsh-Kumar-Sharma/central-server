@@ -1,5 +1,10 @@
 /* eslint-disable */
 module.exports = {
+  TBL_SLAVE_TRANS: 'TBL_SLAVE_TRANS',
+  PAYMENTSUBTYPE: 'PAYMENTSUBTYPE',
+  PAYMENTTYPE: 'PAYMENTTYPE',
+  TBL_MASTER_CLASS: 'TBL_MASTER_CLASS',
+  TBL_FARE_MASTER: 'TBL_FARE_MASTER',
   AFS_MASTER_ROLES: 'afs_master_roles',
   AFS_MASTER_SHIFTS: 'afs_master_shifts',
   AFS_MASTER_MODULES: 'afs_master_modules',

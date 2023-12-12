@@ -11,4 +11,11 @@ export const API_ROUTES = {
   DASHBOARD: {
     STATISTICS: "/dashboard/getAllStatistics",
   },
+  TMS_REPORT: {
+    GENERATE_REPORTS: "/report/generateReports",
+    GET_REPORTS: "/report/getAllReports",
+    FILTER_REPORT: "/transaction/tmsFilterReport",
+    COUNTS_TRANSACTION: "/report/getTransactionCount",
+    VEHICLE_CLASS_AND_DATE_WISE: "/report/getCountClassWiseAndDateWise"
+  },
 };
