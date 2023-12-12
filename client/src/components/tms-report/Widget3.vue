@@ -1,28 +1,13 @@
 <template>
-  <button
-    id="toggle-filter"
-    class="filter btn btn-light-danger lh-1"
-    data-bs-toggle="tooltip"
-    data-bs-placement="left"
-    data-bs-dismiss="click"
-    data-bs-trigger="hover"
-  >
+  <button id="toggle-filter" class="filter btn btn-light-danger lh-1" data-bs-toggle="tooltip" data-bs-placement="left"
+    data-bs-dismiss="click" data-bs-trigger="hover">
     <i class="bi bi-clipboard2-check"></i>Custom Report
   </button>
 
-  <div
-    id="kt_modal_filter"
-    ref="addDeviceModalRef"
-    class="bg-body drawer drawer-end"
-    data-kt-drawer="true"
-    data-kt-drawer-name="app-settings"
-    data-kt-drawer-activate="true"
-    data-kt-drawer-overlay="true"
-    data-kt-drawer-width="{default:'550px', 'lg': '550px'}"
-    data-kt-drawer-direction="end"
-    data-kt-drawer-toggle="#toggle-filter"
-    data-kt-drawer-close="#kt_app_layout_builder_close"
-  >
+  <div id="kt_modal_filter" ref="addDeviceModalRef" class="bg-body drawer drawer-end" data-kt-drawer="true"
+    data-kt-drawer-name="app-settings" data-kt-drawer-activate="true" data-kt-drawer-overlay="true"
+    data-kt-drawer-width="{default:'550px', 'lg': '550px'}" data-kt-drawer-direction="end"
+    data-kt-drawer-toggle="#toggle-filter" data-kt-drawer-close="#kt_app_layout_builder_close">
     <!--begin::Card-->
 
     <div class="card border-0 shadow-none rounded-0 w-100">
@@ -30,15 +15,13 @@
 
       <div
         class="card-header bgi-position-y-bottom bgi-position-x-end bgi-size-cover bgi-no-repeat rounded-0 border-0 py-3"
-        id="kt_app_layout_builder_header"
-        :style="{
+        id="kt_app_layout_builder_header" :style="{
           backgroundImage: `url(
   
               ${getAssetPath('media/misc/layout/customizer-header-bg.jpg')}
   
             )`,
-        }"
-      >
+        }">
         <!--begin::Card title-->
 
         <h3 class="card-title fs-3 fw-bold text-white flex-column m-0">
@@ -50,11 +33,9 @@
         <!--begin::Card toolbar-->
 
         <div class="card-toolbar">
-          <button
-            type="button"
+          <button type="button"
             class="btn btn-sm btn-icon bg-white bg-opacity-25 btn-color-white p-0 w-20px h-20px rounded-1"
-            id="kt_app_layout_builder_close"
-          >
+            id="kt_app_layout_builder_close">
             <KTIcon icon-name="cross-square" icon-class="fs-3" />
           </button>
         </div>
@@ -67,15 +48,10 @@
       <!--begin::Card body-->
 
       <div class="card-body position-relative" id="kt_app_layout_builder_body">
-        <div
-          id="kt_app_settings_content"
-          class="position-relative scroll-y me-n5 pe-5"
-          data-kt-scroll="true"
-          data-kt-scroll-height="auto"
-          data-kt-scroll-wrappers="#kt_app_layout_builder_body"
+        <div id="kt_app_settings_content" class="position-relative scroll-y me-n5 pe-5" data-kt-scroll="true"
+          data-kt-scroll-height="auto" data-kt-scroll-wrappers="#kt_app_layout_builder_body"
           data-kt-scroll-dependencies="#kt_app_layout_builder_header, #kt_app_layout_builder_footer"
-          data-kt-scroll-offset="5px"
-        >
+          data-kt-scroll-offset="5px">
           <!--begin::Form-->
 
           <form class="form" id="kt_app_layout_builder_form">
@@ -91,13 +67,8 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-date-picker
-                    v-model="formData.fromDate"
-                    type="datetime"
-                    :teleported="false"
-                    name="eventStartDate"
-                    placeholder="Select date and time"
-                  />
+                  <el-date-picker v-model="formData.fromDate" type="datetime" :teleported="false" name="eventStartDate"
+                    placeholder="Select date and time" />
                   <!--end::Input-->
                 </div>
 
@@ -107,13 +78,8 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-date-picker
-                    v-model="formData.toDate"
-                    type="datetime"
-                    :teleported="false"
-                    name="eventStartDate"
-                    placeholder="Select date and time"
-                  />
+                  <el-date-picker v-model="formData.toDate" type="datetime" :teleported="false" name="eventStartDate"
+                    placeholder="Select date and time" />
                   <!--end::Input-->
                 </div>
               </div>
@@ -125,12 +91,7 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-input
-                    v-model="formData.tagId"
-                    type="text"
-                    placeholder="Enter tag id"
-                    name="eventLocation"
-                  />
+                  <el-input v-model="formData.tagId" type="text" placeholder="Enter tag id" name="eventLocation" />
                   <!--end::Input-->
                 </div>
                 <div class="col-md-6 fv-row">
@@ -139,12 +100,8 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-input
-                    v-model="formData.transactionId"
-                    type="text"
-                    placeholder="Enter transaction id"
-                    name="eventLocation"
-                  />
+                  <el-input v-model="formData.transactionId" type="text" placeholder="Enter transaction id"
+                    name="eventLocation" />
                   <!--end::Input-->
                 </div>
               </div>
@@ -156,12 +113,8 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-input
-                    v-model="formData.plateNumber"
-                    type="text"
-                    placeholder="Enter plate number"
-                    name="eventLocation"
-                  />
+                  <el-input v-model="formData.plateNumber" type="text" placeholder="Enter plate number"
+                    name="eventLocation" />
                   <!--end::Input-->
                 </div>
                 <div class="col-md-6 fv-row">
@@ -170,12 +123,7 @@
                   <!--end::Label-->
 
                   <el-select v-model="formData.laneType" placeholder="Select">
-                    <el-option
-                      v-for="item in laneType"
-                      :key="item"
-                      :label="item"
-                      :value="item"
-                    />
+                    <el-option v-for="item in laneType" :key="item" :label="item" :value="item" />
                   </el-select>
                 </div>
               </div>
@@ -187,12 +135,8 @@
                   <!--end::Label-->
 
                   <el-select v-model="formData.lane" placeholder="Select">
-                    <el-option
-                      v-for="item in laneMaster"
-                      :key="item.LANE_ID"
-                      :label="item.LANE_NAME"
-                      :value="item.LANE_NAME"
-                    />
+                    <el-option v-for="item in laneMaster" :key="item.LANE_ID" :label="item.LANE_NAME"
+                      :value="item.LANE_NAME" />
                   </el-select>
                 </div>
 
@@ -201,16 +145,9 @@
                   <label class="fs-6 fw-semobold mb-1">Vehicle Class</label>
                   <!--end::Label-->
 
-                  <el-select
-                    v-model="formData.vehicleClass"
-                    placeholder="Select"
-                  >
-                    <el-option
-                      v-for="item in vehicleClassMaster"
-                      :key="item.CLASS_DESCRIPTION"
-                      :label="item.CLASS_DESCRIPTION"
-                      :value="item.CLASS_DESCRIPTION"
-                    />
+                  <el-select v-model="formData.vehicleClass" placeholder="Select">
+                    <el-option v-for="item in vehicleClassMaster" :key="item.CLASS_DESCRIPTION"
+                      :label="item.CLASS_DESCRIPTION" :value="item.CLASS_DESCRIPTION" />
                   </el-select>
                 </div>
               </div>
@@ -221,16 +158,9 @@
                   <label class="fs-6 fw-semobold mb-1">Payment Type</label>
                   <!--end::Label-->
 
-                  <el-select
-                    v-model="formData.paymentType"
-                    placeholder="Select"
-                  >
-                    <el-option
-                      v-for="item in paymentMaster"
-                      :key="item.ID"
-                      :label="item.DESCRIPTION"
-                      :value="item.PAYMENTTYPE"
-                    />
+                  <el-select v-model="formData.paymentType" placeholder="Select">
+                    <el-option v-for="item in paymentMaster" :key="item.ID" :label="item.DESCRIPTION"
+                      :value="item.PAYMENTTYPE" />
                   </el-select>
                 </div>
 
@@ -239,16 +169,8 @@
                   <label class="fs-6 fw-semobold mb-1">Abnormality</label>
                   <!--end::Label-->
 
-                  <el-select
-                    v-model="formData.abnormality"
-                    placeholder="Select"
-                  >
-                    <el-option
-                      v-for="item in abnormality"
-                      :key="item"
-                      :label="item"
-                      :value="item"
-                    />
+                  <el-select v-model="formData.abnormality" placeholder="Select">
+                    <el-option v-for="item in abnormality" :key="item" :label="item" :value="item" />
                   </el-select>
                 </div>
               </div>
@@ -259,18 +181,8 @@
                   <label class="fs-6 fw-semobold mb-1">Report Type</label>
                   <!--end::Label-->
 
-                  <el-select
-                    v-model="formData.reportsId"
-                    placeholder="Select"
-                    multiple
-                    filterable
-                  >
-                    <el-option
-                      v-for="item in reportMaster"
-                      :key="item.id"
-                      :label="item.report_name"
-                      :value="item.id"
-                    />
+                  <el-select v-model="formData.reportsId" placeholder="Select" multiple filterable>
+                    <el-option v-for="item in reportMaster" :key="item.id" :label="item.report_name" :value="item.id" />
                   </el-select>
                 </div>
               </div>
@@ -283,15 +195,8 @@
       <!--end::Card body-->
 
       <!--begin::Card footer-->
-      <div
-        class="card-footer border-0 d-flex"
-        id="kt_app_layout_builder_footer"
-      >
-        <button
-          type="button"
-          class="btn btn-primary flex-grow-1 fw-semibold mx-3"
-          @click="generateCustomReport"
-        >
+      <div class="card-footer border-0 d-flex" id="kt_app_layout_builder_footer">
+        <button type="button" class="btn btn-primary flex-grow-1 fw-semibold mx-3" @click="generateCustomReport">
           <!--begin::Indicator label-->
 
           <span class="indicator-label">Generate Report</span>
@@ -299,11 +204,7 @@
           <!--end::Indicator label-->
         </button>
 
-        <button
-          @click="reset(false)"
-          type="button"
-          class="btn btn-light flex-grow-1 fw-semibold"
-        >
+        <button @click="reset(false)" type="button" class="btn btn-light flex-grow-1 fw-semibold">
           <!--begin::Indicator label-->
 
           <span class="indicator-label">Reset</span>
@@ -312,13 +213,9 @@
 
           <!--begin::Indicator progress-->
 
-          <span class="indicator-progress"
-            >Please wait...
+          <span class="indicator-progress">Please wait...
 
-            <span
-              class="spinner-border spinner-border-sm align-middle ms-2"
-            ></span
-          ></span>
+            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
 
           <!--end::Indicator progress-->
         </button>
@@ -338,8 +235,6 @@ import { LS_CONFIG_NAME_KEY, useConfigStore } from "@/stores/config";
 import { useThemeStore } from "@/stores/theme";
 import { useMasterData } from "@/stores/common";
 const masterStore = useMasterData() as any;
-import { useTransactionStore } from "@/stores/transaction";
-const transactionStore = useTransactionStore();
 import ApiService from "@/core/services/ApiService";
 import { API_ROUTES } from "@/constants/Config";
 

@@ -22,7 +22,7 @@
   <!--end::Mixed Widget 14-->
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from "vue";
 import { dashboardStats } from "../../stores/dashboard";
 import Loader from "@/layouts/Loader.vue";
@@ -38,7 +38,7 @@ export default defineComponent({
   data() {
     return {
       loader: true,
-      statistics: <any>[],
+      statistics: [],
       series: [{
         data: []
       }],

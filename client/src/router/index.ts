@@ -74,26 +74,6 @@ const routes = [
             },
           },
           {
-            path: "/transaction-revenue-report",
-            name: "VehicleRevenueReport",
-            component: () =>
-              import("@/components/tms-report/revenueSummary.vue"),
-            meta: {
-              pageTitle: "Reports - Transaction Revenue Report",
-              subModuleName: "Transaction Revenue Report",
-            },
-          },
-          {
-            path: "/transaction-avc-report",
-            name: "AvcRevenueReport",
-            component: () =>
-              import("@/components/tms-report/AvcFilter.vue"),
-            meta: {
-              pageTitle: "Reports - Transaction Avc Report",
-              subModuleName: "Transaction Avc Report",
-            },
-          },
-          {
             path: "/download-reports",
             name: "downloadReport",
             component: () =>

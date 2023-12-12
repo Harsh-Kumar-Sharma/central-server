@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from "vue";
 import Widget1 from "@/components/dashboard/Widget1.vue";
 import Widget2 from "@/components/dashboard/Widget2.vue";
@@ -94,7 +94,7 @@ export default defineComponent({
       await store.getMasterData();
       await dashboardStore.getStatisticsData();
       this.themeStore.setLoader(false);
-    } catch (e: any) {
+    } catch (e) {
       Swal.fire({
         title: "Ooops! Something went wrong",
         text: `Failed to get data from the server: ${e.response ? e.response.data.message : e
