@@ -13,8 +13,14 @@
             <div class="card-body">
                 <Datatable :data="transactions" :header="fields" :enable-items-per-page-dropdown="true"
                     :checkbox-enabled="false">
+                    <template v-slot:plaza_name="{ row: transaction }">
+                        {{ transaction.plaza_name }}
+                    </template>
                     <template v-slot:LANE_TRANS_ID="{ row: transaction }">
                         {{ transaction.LANE_TRANS_ID }}
+                    </template>
+                    <template v-slot:TAG="{ row: transaction }">
+                        {{ transaction.TAG }}
                     </template>
                     <template v-slot:LANE_ID="{ row: transaction }">
                         {{ transaction.LANE_ID }}
@@ -26,6 +32,9 @@
                         {{
                             transaction.PASSAGE_TIME
                         }}
+                    </template>
+                    <template v-slot:DIRECTION="{ row: transaction }">
+                        {{ transaction.DIRECTION }}
                     </template>
                     <template v-slot:CLASS_DESCRIPTION="{ row: transaction }">
                         {{ transaction.CLASS_DESCRIPTION }}
@@ -90,8 +99,18 @@ export default defineComponent({
             payload: null,
             fields: [
                 {
+                    columnName: "Plaza Code",
+                    columnLabel: "plaza_name",
+                    sortEnabled: true,
+                },
+                {
                     columnName: "Txn Id",
                     columnLabel: "LANE_TRANS_ID",
+                    sortEnabled: true,
+                },
+                {
+                    columnName: "TAG",
+                    columnLabel: "TAG",
                     sortEnabled: true,
                 },
                 {
@@ -107,6 +126,11 @@ export default defineComponent({
                 {
                     columnName: "Passage Time",
                     columnLabel: "PASSAGE_TIME",
+                    sortEnabled: true,
+                },
+                {
+                    columnName: "DIRECTION",
+                    columnLabel: "DIRECTION",
                     sortEnabled: true,
                 },
                 {

@@ -232,11 +232,12 @@ const tmsFillterReport = async (filterBody, page) => {
   if (body.paymentSubtype && body.paymentSubtype !== 'null' && body.paymentSubtype !== 'All')
     condition += `PAYMENT_SUBTYPE = '${body.paymentSubtype}' AND `;
   if (body.plazaCode && body.plazaCode !== 'null' && body.plazaCode !== 'All')
-    condition += `PLAZA_CODE = '${body.plazaCode}' AND `;
+    condition += `TBL_SLAVE_TRANS.PLAZA_CODE = '${body.plazaCode}' AND `;
   const data = await sequelize.query(
     `select
-    PLAZA_CODE,
+     tm.PLAZA_NAME as 'plaza_name',
     LANE_TRANS_ID,
+    TAG,
     API_TRANS_ID,
     LANE_ID,
     LANE_TYPE,
@@ -277,6 +278,7 @@ const tmsFillterReport = async (filterBody, page) => {
     LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [VEH] ON [TBL_SLAVE_TRANS].[VEH_CLASS] = [VEH].[CLASS_NO]
 LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [REVEH] ON [TBL_SLAVE_TRANS].[RE_VEH_CLASS] = [REVEH].[CLASS_NO]
 LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [AVC] ON [TBL_SLAVE_TRANS].[AVC_CLASS] = [AVC].[CLASS_NO]
+INNER JOIN TBL_PLAZA_MASTER AS tm ON tm.PLAZA_CODE = [TBL_SLAVE_TRANS].PLAZA_CODE
 INNER JOIN [PAYMENTTYPE] AS [PAY] ON [TBL_SLAVE_TRANS].[PAYMENT_TYPE] = [PAY].[PAYMENTTYPE]
 INNER JOIN [PAYMENTSUBTYPE] AS [PAYSUB] ON [TBL_SLAVE_TRANS].[PAYMENT_SUBTYPE] = [PAYSUB].[PAYMENTSUBTYPE] 
  where ${condition} 1=1 ORDER BY PASSAGE_TIME ASC OFFSET ${offset} ROWS FEtCH NEXT ${limit} ROWS ONLY 

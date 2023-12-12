@@ -139,7 +139,7 @@
               <div class="col-7">
                 <el-select v-model="plazaCode" filterable>
                   <el-option key="All" label="All" value="All" />
-                  <el-option v-for="(item, index) in plazaCodeData" :key="index" :label="item.PLAZA_CODE" :value="item.PLAZA_CODE
+                  <el-option v-for="(item, index) in plazaCodeData" :key="index" :label="item.PLAZA_NAME" :value="item.PLAZA_CODE
                     " />
                 </el-select>
               </div>
