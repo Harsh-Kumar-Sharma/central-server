@@ -16,6 +16,7 @@ export const API_ROUTES = {
     GET_REPORTS: "/report/getAllReports",
     FILTER_REPORT: "/transaction/tmsFilterReport",
     COUNTS_TRANSACTION: "/report/getTransactionCount",
-    VEHICLE_CLASS_AND_DATE_WISE: "/report/getCountClassWiseAndDateWise"
+    VEHICLE_CLASS_AND_DATE_WISE: "/report/getCountClassWiseAndDateWise",
+    GET_FILTER_MASTER_DATA: '/transaction/GetFilterMasterData'
   },
 };

@@ -79,7 +79,16 @@ const getAllVehicleClass = catchAsync(async (req, res, next) => {
 
 
 
-
+// Get Data Using Filter INTO Master Table
+const getMasterData = catchAsync(async (req, res, next) => {
+  const { page } = req.params;
+  const filterBody = req.body;
+  const filterData = await transactionService.getMasterData(filterBody, page);
+  return res.status(200).json({
+    data: filterData.data,
+    totalCount: filterData.totalCount
+  });
+});
 
 
 module.exports = {
@@ -88,5 +97,6 @@ module.exports = {
   getTransactionByTXnId,
   filterTmsReport,
   getAllPaymentType,
-  getAllPaymentSubType
+  getAllPaymentSubType,
+  getMasterData
 };

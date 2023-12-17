@@ -272,15 +272,13 @@ const tmsFillterReport = async (filterBody, page) => {
     [VEH].CLASS_DESCRIPTION,
     [AVC].CLASS_DESCRIPTION as 'Avc',
    [REVEH].CLASS_DESCRIPTION as 'REVEH_CLASS_DESCRIPTION',
-    [PAY].DESCRIPTION,
-    [PAYSUB].DESCRIPTION as 'Sub_DESCRIPTION'
+    [PAY].DESCRIPTION
     from TBL_SLAVE_TRANS [TBL_SLAVE_TRANS]
     LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [VEH] ON [TBL_SLAVE_TRANS].[VEH_CLASS] = [VEH].[CLASS_NO]
 LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [REVEH] ON [TBL_SLAVE_TRANS].[RE_VEH_CLASS] = [REVEH].[CLASS_NO]
 LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [AVC] ON [TBL_SLAVE_TRANS].[AVC_CLASS] = [AVC].[CLASS_NO]
 INNER JOIN TBL_PLAZA_MASTER AS tm ON tm.PLAZA_CODE = [TBL_SLAVE_TRANS].PLAZA_CODE
 INNER JOIN [PAYMENTTYPE] AS [PAY] ON [TBL_SLAVE_TRANS].[PAYMENT_TYPE] = [PAY].[PAYMENTTYPE]
-INNER JOIN [PAYMENTSUBTYPE] AS [PAYSUB] ON [TBL_SLAVE_TRANS].[PAYMENT_SUBTYPE] = [PAYSUB].[PAYMENTSUBTYPE] 
  where ${condition} 1=1 ORDER BY PASSAGE_TIME ASC OFFSET ${offset} ROWS FEtCH NEXT ${limit} ROWS ONLY 
       `
   );
@@ -312,7 +310,111 @@ const getAllVehicleClass = async () => {
   return data;
 };
 
+const getMasterData = async (filterBody, page) => {
+  const limit = 50;
+  const offset = (page - 1) * limit;
+  const body = filterBody;
+  const timeZone = 'Asia/Kolkata';
+  const options = {
+    timeZone: timeZone,
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  };
 
+  const startDate = new Intl.DateTimeFormat('en-US', options).format(new Date(body.fromDate));
+  const endDate = new Intl.DateTimeFormat('en-US', options).format(new Date(body.toDate));
+  let condition = '';
+  if (body.fromDate && body.toDate && !String(body.fromDate).includes('1970') && !String(body.toDate).includes('1970')) {
+    condition += `EXIT_PASSAGE_TIME BETWEEN'${startDate.replace(',', ' ')}' AND '${endDate.replace(',', ' ')}' AND `;
+  }
+  if (body.tagId && body.tagId !== 'null') condition += `TAG = '${body.tagId}' AND `;
+  if (body.plateNumber && body.plateNumber !== 'null') condition += `VEH_PLATE LIKE '%${body.plateNumber}' AND `;
+  if (body.bankStatus && body.bankStatus !== 'null' && body.bankStatus !== 'All')
+    condition += `API_TRANS_STATUS = '${body.bankStatus}' AND `;
+  if (body.exitLaneId && body.exitLaneId !== 'null' && body.exitLaneId !== 'All')
+    condition += `EXIT_LANE_ID = '${body.exitLaneId}' AND `;
+  if (body.entryLaneId && body.entryLaneId !== 'null' && body.entryLaneId !== 'All')
+    condition += `ENTRY_LANE_ID = '${body.entryLaneId}' AND `;
+  if (body.entryPlaza && body.entryPlaza !== 'null' && body.entryPlaza !== 'All')
+    condition += `ENTRY_PLAZA_CODE= '${body.entryPlaza}' AND `;
+  if (body.exitPlaza && body.exitPlaza !== 'null' && body.exitPlaza !== 'All')
+    condition += `EXIT_PLAZA_CODE = '${body.exitPlaza}' AND `;
+  const data = await sequelize.query(
+    `SELECT [ENTRY_TRANS_ID]
+    ,[EXIT_TRANS_ID]
+    ,tm.[PLAZA_NAME] as 'entry_plaza_name'
+    ,tm1.[PLAZA_NAME] as 'exit_plaza_name'
+    ,[EXIT_PLAZA_CODE]
+    ,[ENTRY_LANE_ID]
+    ,[EXIT_LANE_ID]
+    ,[TAG]
+    ,[TAG_TID]
+    ,[PAN]
+    ,[TAG_PLATE]
+    ,[VEH_PLATE]
+    ,[TBL_MASTER_TRANS].[TAG_CLASS]
+    ,[ENTRY_AVC_CLASS]
+    ,[EXIT_AVC_CLASS]
+    ,[VEH_CLASS]
+    ,[TOLL_FARE]
+    ,[ENTRY_PASSAGE_TIME]
+    ,[EXIT_PASSAGE_TIME]
+    ,[DISTANCE]
+    ,[JOURNEY_TIME]
+    ,[AVERAGE_SPEED]
+    ,[TBL_MASTER_TRANS].[ALLOWED_SPEED]
+    ,[PAYMENT_TYPE]
+    ,[PAYMENT_SUBTYPE]
+    ,[REVIEWER_ID]
+    ,[RE_VEH_PLATE]
+    ,[RE_VEH_CLASS]
+    ,[RE_TIME]
+    ,[RE_COMMENT]
+    ,[CATEGORY]
+    ,[ENTRY_VEH_IMG]
+    ,[ENTRY_PLATE_IMG]
+    ,[EXIT_VEH_IMG]
+    ,[EXIT_PLATE_IMG]
+    ,[CCH_IS_EXEMPTED]
+    ,[CCH_IS_VIOLATED]
+    ,[PRICE_MODE]
+    ,[CCH_OTHER]
+    ,[CCH_BATCH_ID]
+    ,[MODE]
+    ,[RE_STATUS]
+    ,[IS_OVER_SPEED]
+    ,[NIC_STATUS]
+    ,[PRO_STATUS]
+    ,[API_TRANS_STATUS]
+    ,[TBL_MASTER_TRANS].[ENCODED_DATE]
+    ,[ENTRYANPRCAMID]
+    ,[OW_FARE]
+    ,[VALID_ID]
+    ,[BLACKLIST]
+    ,[PENALTY_FARE]
+    ,[TOTAL_PENALTY_FARE]
+    ,[IS_VIRTUAL]
+    ,[IS_RESP_RECVD]
+    ,[IS_ANPR_MERGED],
+    [VEH].CLASS_DESCRIPTION
+    FROM [TBL_MASTER_TRANS] AS [TBL_MASTER_TRANS]
+    INNER JOIN TBL_PLAZA_MASTER AS tm ON tm.PLAZA_CODE = [TBL_MASTER_TRANS].[ENTRY_PLAZA_CODE]
+    INNER JOIN TBL_PLAZA_MASTER AS tm1 ON tm1.PLAZA_CODE = [TBL_MASTER_TRANS].[EXIT_PLAZA_CODE]
+    INNER JOIN [TBL_MASTER_CLASS] AS [VEH] ON [TBL_MASTER_TRANS].[VEH_CLASS] = [VEH].[CLASS_NO]
+ where ${condition} 1=1 ORDER BY EXIT_PLAZA_CODE ASC OFFSET ${offset} ROWS FEtCH NEXT ${limit} ROWS ONLY `
+  );
+  // Fetch the total count of all transactions
+  const count = await sequelize.query(`select count(*) as total from TBL_MASTER_TRANS where ${condition} 1=1`)
+  const totalCount = count[0][0].total;
+  return {
+    data: data[0],
+    totalCount: totalCount
+  };
+}
 
 
 module.exports = {
@@ -321,5 +423,6 @@ module.exports = {
   getTransactionByTXnId,
   tmsFillterReport,
   getAllPaymentType,
-  getAllPaymentSubType
+  getAllPaymentSubType,
+  getMasterData,
 };

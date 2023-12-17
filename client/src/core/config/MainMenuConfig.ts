@@ -22,6 +22,11 @@ const MainMenuConfig: Array<MenuItem> = [
         bootstrapIcon: "bi-file-earmark-check-fill",
       },
       {
+        heading: "Master Reports",
+        route: "/master-reports",
+        bootstrapIcon: "bi-file-earmark-break",
+      },
+      {
         heading: "Analysis",
         route: "/server-transaction",
         bootstrapIcon: "bi-graph-up",

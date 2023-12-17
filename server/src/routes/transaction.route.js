@@ -10,6 +10,7 @@ router.post('/tmsFilterReport/:page', validate(transactionValidation.filterObjec
 router.get('/getAllPaymentType', transactionController.getAllPaymentType);
 router.get('/getAllPaymentSubType', transactionController.getAllPaymentSubType);
 router.get('/getVehicleClass', transactionController.getAllVehicleClass);
+router.post('/GetFilterMasterData/:page', transactionController.getMasterData)
 
 
 module.exports = router;

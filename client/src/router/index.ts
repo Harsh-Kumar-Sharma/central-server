@@ -83,8 +83,36 @@ const routes = [
               subModuleName: "Download Report",
             },
           },
+          {
+            path: "/master-reports",
+            name: "Master Reports",
+            component: () => import("@/views/MasterReport.vue"),
+            meta: {
+              pageTitle: "Master-Report",
+              moduleName: "Master Report",
+            }
+          }
         ],
       },
+    ],
+  },
+  {
+    path: "/master-reports",
+    component: () => import("@/layouts/main-layout/MainLayout.vue"),
+    meta: {
+      middleware: "auth",
+      moduleName: "Master Reports",
+    },
+    children: [
+      {
+        path: "/master-reports",
+        name: "Master Reports",
+        component: () => import("@/views/MasterReport.vue"),
+        meta: {
+          pageTitle: "Master Reports",
+          moduleName: "Master Reports",
+        },
+      }
     ],
   },
   {

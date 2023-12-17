@@ -96,10 +96,8 @@ const excelDataFilter = async (filterBody, reportData) => {
   const totalCountData = await sequelize.query(
     `SELECT COUNT(*) as totalCount FROM TBL_SLAVE_TRANS [TBL_SLAVE_TRANS]
     LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [VEH] ON [TBL_SLAVE_TRANS].[VEH_CLASS] = [VEH].[CLASS_NO]
-		LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [REVEH] ON [TBL_SLAVE_TRANS].[RE_VEH_CLASS] = [REVEH].[CLASS_NO]
 		LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [AVC] ON [TBL_SLAVE_TRANS].[AVC_CLASS] = [AVC].[CLASS_NO]
 		INNER JOIN [PAYMENTTYPE] AS [PAY] ON [TBL_SLAVE_TRANS].[PAYMENT_TYPE] = [PAY].[PAYMENTTYPE] 
-		INNER JOIN [PAYMENTSUBTYPE] AS [PAYSUB] ON [TBL_SLAVE_TRANS].[PAYMENT_SUBTYPE] = [PAYSUB].[PAYMENTSUBTYPE] 
 	 where ${condition} 1=1`
   );
   const totalCount = totalCountData[0][0].totalCount;
@@ -257,50 +255,49 @@ const addDataInExcel = async (condition, totalCount, filterBody, currentpageno, 
     for (let currentPage = current; currentPage <= totalPages; currentPage++) {
       const data = await sequelize.query(
         `select
-      PLAZA_CODE,
-      LANE_TRANS_ID,
-      API_TRANS_ID,
-      LANE_ID,
-      LANE_TYPE,
-      OPERATOR_ID,
-      FORMAT(PASSAGE_TIME, 'M/d/yyyy, hh:mm:ss tt') AS PASSAGE_TIME,
-      PAN,
-      VEH_PLATE,
-      VEH_CLASS,
-      AVC_CLASS, 
-      WEIGHT,
-      DIRECTION,
-      PAYMENT_TYPE,
-      PAYMENT_SUBTYPE,
-      CLASS_FARE,
-      PENALTY_FARE,
-      OW_FARE,
-      TOTAL_FARE,
-      OPERATOR_COMMENT,
-      ABNORMALITY,
-      REVIEWER_ID,
-      RE_VEH_PLATE,
-      RE_VEH_CLASS,
-      RE_VEH_FEE,
-      RE_TIME,
-      RE_PAYMENT_TYPE,
-      RE_PAYMENT_SUBTYPE,
-      RE_COMMENT,
-      RE_STATUS,
-      CS_COMMENT,
-      MODE,
-      VALID_ID,
-      [VEH].CLASS_DESCRIPTION,
-      [AVC].CLASS_DESCRIPTION as 'Avc',
-     [REVEH].CLASS_DESCRIPTION as 'REVEH_CLASS_DESCRIPTION',
-      [PAY].DESCRIPTION,
-      [PAYSUB].DESCRIPTION as 'Sub_DESCRIPTION'
-      from TBL_SLAVE_TRANS [TBL_SLAVE_TRANS]
-      LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [VEH] ON [TBL_SLAVE_TRANS].[VEH_CLASS] = [VEH].[CLASS_NO]
-  LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [REVEH] ON [TBL_SLAVE_TRANS].[RE_VEH_CLASS] = [REVEH].[CLASS_NO]
-  LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [AVC] ON [TBL_SLAVE_TRANS].[AVC_CLASS] = [AVC].[CLASS_NO]
-  INNER JOIN [PAYMENTTYPE] AS [PAY] ON [TBL_SLAVE_TRANS].[PAYMENT_TYPE] = [PAY].[PAYMENTTYPE] 
-  INNER JOIN [PAYMENTSUBTYPE] AS [PAYSUB] ON [TBL_SLAVE_TRANS].[PAYMENT_SUBTYPE] = [PAYSUB].[PAYMENTSUBTYPE] 
+       PLAZA_CODE,
+       LANE_TRANS_ID,
+       TAG,
+       API_TRANS_ID,
+       LANE_ID,
+       LANE_TYPE,
+       OPERATOR_ID,
+       FORMAT(PASSAGE_TIME, 'M/d/yyyy, hh:mm:ss tt') AS PASSAGE_TIME,
+       PAN,
+       VEH_PLATE,
+       VEH_CLASS,
+       AVC_CLASS, 
+       WEIGHT,
+       DIRECTION,
+       PAYMENT_TYPE,
+       PAYMENT_SUBTYPE,
+       CLASS_FARE,
+       PENALTY_FARE,
+       OW_FARE,
+       TOTAL_FARE,
+       OPERATOR_COMMENT,
+       ABNORMALITY,
+       REVIEWER_ID,
+       RE_VEH_PLATE,
+       RE_VEH_CLASS,
+       RE_VEH_FEE,
+       RE_TIME,
+       RE_PAYMENT_TYPE,
+       RE_PAYMENT_SUBTYPE,
+       RE_COMMENT,
+       RE_STATUS,
+       CS_COMMENT,
+       MODE,
+       VALID_ID,
+       [VEH].CLASS_DESCRIPTION,
+       [AVC].CLASS_DESCRIPTION as 'Avc',
+      [REVEH].CLASS_DESCRIPTION as 'REVEH_CLASS_DESCRIPTION',
+       [PAY].DESCRIPTION
+       from TBL_SLAVE_TRANS [TBL_SLAVE_TRANS]
+       LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [VEH] ON [TBL_SLAVE_TRANS].[VEH_CLASS] = [VEH].[CLASS_NO]
+   LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [REVEH] ON [TBL_SLAVE_TRANS].[RE_VEH_CLASS] = [REVEH].[CLASS_NO]
+   LEFT OUTER JOIN [TBL_MASTER_CLASS] AS [AVC] ON [TBL_SLAVE_TRANS].[AVC_CLASS] = [AVC].[CLASS_NO]
+   INNER JOIN [PAYMENTTYPE] AS [PAY] ON [TBL_SLAVE_TRANS].[PAYMENT_TYPE] = [PAY].[PAYMENTTYPE] 
  where ${condition} 1=1 ORDER BY PASSAGE_TIME ASC OFFSET ${(currentPage - 1) * pageSize
         } ROWS FEtCH NEXT ${pageSize} ROWS ONLY 
         `
@@ -317,7 +314,7 @@ const addDataInExcel = async (condition, totalCount, filterBody, currentpageno, 
           obj.PASSAGE_TIME,
           obj.OPERATOR_ID,
           obj.DESCRIPTION,
-          obj.Sub_DESCRIPTION,
+          obj.PAYMENT_SUBTYPE,
           obj.VEH_PLATE,
           obj.CLASS_DESCRIPTION,
           obj.Avc,
@@ -394,18 +391,14 @@ const getTransactionCount = async (filterBody) => {
    SUM(CASE WHEN VEH_CLASS = 4 THEN 1 ELSE 0 END) AS 'TRUCK2AXLES',
    SUM(CASE WHEN VEH_CLASS = 5 THEN 1 ELSE 0 END) AS 'MAV3AXLES',
    SUM(CASE WHEN VEH_CLASS = 6 THEN 1 ELSE 0 END) AS 'MAV4to6AXLES',
-   SUM(CASE WHEN VEH_CLASS = 7 THEN 1 ELSE 0 END) AS 'Oversized_vehicle'
+   SUM(CASE WHEN VEH_CLASS = 7 THEN 1 ELSE 0 END) AS 'Oversized_vehicle',
+   Sum(1) as 'Total'
 FROM TBL_SLAVE_TRANS AS TS
 INNER JOIN PAYMENTTYPE AS PS ON TS.PAYMENT_TYPE = PS.PAYMENTTYPE
 WHERE
  ${condition} 1=1
 GROUP BY PS.DESCRIPTION
 `)
-  for (let i = 0; i < countObject[0].length; i++) {
-    countObject[0][i].Total = countObject[0][i].CARJEEPVAN + countObject[0][i].LCVMINIBUS
-      + countObject[0][i].BUS2AXLES + countObject[0][i].TRUCK2AXLES + countObject[0][i].MAV3AXLES +
-      countObject[0][i].MAV4to6AXLES + countObject[0][i].Oversized_vehicle
-  }
 
   const obj1 = {
     PAYMENT_TYPE: 'TotalCount',

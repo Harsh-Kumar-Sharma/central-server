@@ -5,7 +5,9 @@ export const useTmsStore = defineStore({
   id: 'TMStransaction',
   state: () => ({
     Filtertransaction: {},
-    payload: {}
+    FilterMasterData: {},
+    payload: {},
+    payloadMaster: {}
   }),
   getters: {
     getFiltertransaction(state) {
@@ -13,6 +15,12 @@ export const useTmsStore = defineStore({
     },
     getpayload(state) {
       return state.payload
+    },
+    getFilterMasterData(state) {
+      return state.FilterMasterData;
+    },
+    getpayloadMaster(state) {
+      return state.payloadMaster
     }
   },
   actions: {
@@ -23,7 +31,14 @@ export const useTmsStore = defineStore({
         payload
       );
       this.Filtertransaction = res.data;
-      console.log(this.Filtertransaction)
+    },
+    async setFilterMasterData(payloadMaster, page) {
+      this.payloadMaster = payloadMaster
+      const res = await axios.post(
+        `${BASE_URL}${API_ROUTES.TMS_REPORT.GET_FILTER_MASTER_DATA}/${page}`,
+        payloadMaster
+      );
+      this.FilterMasterData = res.data;
     },
   }
 });
