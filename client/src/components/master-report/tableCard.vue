@@ -105,7 +105,7 @@ export default defineComponent({
                 },
                 {
                     columnName: "Exit Plaza Name",
-                    columnLabel: "entry_plaza_name",
+                    columnLabel: "exit_plaza_name",
                     sortEnabled: true,
                 },
                 {

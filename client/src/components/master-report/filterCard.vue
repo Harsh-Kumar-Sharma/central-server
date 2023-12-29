@@ -79,7 +79,7 @@
                             </div>
                             <div class="col-7">
                                 <!--begin::Input-->
-                                <el-input v-model="tagId" type="text" placeholder="Enter tag id" size="medium" />
+                                <el-input v-model="plateNumber" type="text" placeholder="Enter tag id" size="medium" />
                                 <!--end::Input-->
                             </div>
                         </div>

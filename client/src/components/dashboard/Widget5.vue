@@ -34,11 +34,11 @@
               </div>
               <!--end::Label-->
               <!--begin::Stats-->
-              <div class="fw-bolder  text-primary flex-grow-1 me-4">
-                ({{ (value / total * 100).toFixed(2) + "%" }})
+              <div class="fw-bolder text-center text-primary flex-grow-1 me-4">
+                {{ value }}
               </div>
               <div class="fw-bolder text-gray-700 text-xxl-end">
-                {{ value }}
+                ({{ (value / total * 100).toFixed(2) + "%" }})
               </div>
               <!--end::Stats-->
             </div>

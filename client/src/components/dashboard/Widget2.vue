@@ -1,9 +1,9 @@
 <template>
   <!--begin::List Widget 6-->
-  <div class="card" :class="widgetClasses" style="height:590px;">
+  <div class="card" :class="widgetClasses" style="height:620px;">
     <!--begin::Header-->
     <div class="card-header border-0">
-      <h3 class="card-title fw-bold text-dark">Plaza Exit Transaction Count</h3>
+      <h3 class="card-title fw-bold text-dark">Server Sync Time</h3>
       <!--end::Header-->
     </div>
 
@@ -18,22 +18,26 @@
         <!--begin::Item-->
         <div :class="[
           'mb-7' && list.length - 1 !== index,
-          `bg-light-${item.color}`,
+          `bg-light`,
         ]" class="d-flex align-items-center rounded p-3 mb-4">
-          <KTIcon icon-name="abstract-26" :icon-class="`text-${item.color} fs-1 me-5`" />
+          <KTIcon icon-name="abstract-26" :icon-class="`text-light fs-1 me-5`" />
 
           <!--begin::Title-->
-          <div class="flex-grow-1 me-2">
+          <div class="col-5">
             <span class="fw-bold text-gray-800 text-hover-primary fs-6">
-              {{ item.title }}
+              {{ item.PLAZA_NAME }}
             </span>
           </div>
-          <!--end::Title-->
-
-          <!--begin::Lable-->
-          <span :class="`text-${item.color}`" class="fw-bold py-1">{{
-            item.number
-          }}</span>
+          <div class="col-3">
+            <span class="fw-bold text-gray-800 text-hover-primary fs-6">
+              {{ item.LAST_DATA_RCVD.replace(/(\.\d{3})?Z$/, '').replace('T', ' ') }}
+            </span>
+          </div>
+          <div class="col-3 text-center">
+            <span class="fw-bold text-gray-800 text-hover-primary fs-6">
+              {{ item.DELAY }}
+            </span>
+          </div>
           <!--end::Lable-->
         </div>
         <!--end::Item-->
@@ -44,8 +48,7 @@
   <!--end::List Widget 6-->
 </template>
 
-<script lang="ts">
-import { getAssetPath } from "@/core/helpers/assets";
+<script>
 import { defineComponent, ref } from "vue";
 import { dashboardStats } from "../../stores/dashboard";
 import Loader from "@/layouts/Loader.vue";
@@ -63,57 +66,8 @@ export default defineComponent({
   data() {
     return {
       loader: true,
-      statistics: <any>[],
-      list: [
-        {
-          color: "success",
-          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
-          title: "Total Transactions",
-          number: null,
-        },
-        {
-          color: "dark",
-          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
-          title: "Sarai Kale Khan Plaza",
-          number: null,
-        },
-        {
-          color: "dark",
-          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
-          title: "Indirapuram Plaza",
-          number: null,
-        },
-        {
-          color: "dark",
-          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
-          title: "Dundahera Plaza",
-          number: null,
-        },
-        {
-          color: "dark",
-          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
-          title: "Dasna Plaza",
-          number: null,
-        },
-        {
-          color: "info",
-          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
-          title: "Rasoolpur Sikrod Plaza",
-          number: null,
-        },
-        {
-          color: "info",
-          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
-          title: "Bhojpur Plaza",
-          number: null,
-        },
-        {
-          color: "info",
-          icon: getAssetPath("media/icons/duotune/communication/com012.svg"),
-          title: "Kashi Plaza",
-          number: null,
-        }
-      ],
+      statistics: {},
+      list: [],
     };
   },
 
@@ -126,16 +80,13 @@ export default defineComponent({
   watch: {
     getStatisticsData: function () {
       this.statistics = this.getStatisticsData;
-      if (this.statistics.plazaWiseCountExit) {
+      if (this.statistics.apiFetchStatus) {
         this.loader = false;
-        this.list[0].number = this.statistics.plazaWiseCountExit.totalCount
-        this.list[1].number = this.statistics.plazaWiseCountExit.SaraiKaleKhan
-        this.list[2].number = this.statistics.plazaWiseCountExit.Indirapuram
-        this.list[3].number = this.statistics.plazaWiseCountExit.Dundahera
-        this.list[4].number = this.statistics.plazaWiseCountExit.Dasna
-        this.list[5].number = this.statistics.plazaWiseCountExit.RasoolpurSikrod
-        this.list[6].number = this.statistics.plazaWiseCountExit.Bhojpur
-        this.list[7].number = this.statistics.plazaWiseCountExit.Kashi
+        this.list = [{
+          PLAZA_NAME: "Plaza Name",
+          LAST_DATA_RCVD: "LAST DATA RCVD",
+          DELAY: "Delay Time In Sec"
+        }, ...this.statistics.apiFetchStatus]
       }
     },
   },

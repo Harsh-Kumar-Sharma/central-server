@@ -6,20 +6,15 @@
     </div>
     <div class="row g-5 g-xl-8">
       <!--begin::Col-->
-      <div class="col-xl-4">
+      <div class="col-xl-6">
         <Widget1 widget-classes="card-xl-stretch mb-xl-8" widget-color="info" chart-height="100" stroke-color="#4e12c4">
         </Widget1>
       </div>
       <!--end::Col-->
 
-      <!-- begin::Col-->
-      <div class="col-xl-4">
-        <Widget2 widget-classes="card-xl-stretch mb-xl-8" stroke-color="#cb1e46"></Widget2>
-      </div>
-      <!-- end::Col-->
 
       <!--begin::Col-->
-      <div class="col-xl-4">
+      <div class="col-xl-6">
         <Widget3 widget-classes="card-xl-stretch mb-xl-8" widget-color="danger" chart-height="100"></Widget3>
       </div>
       <!--end::Col-->
@@ -41,6 +36,14 @@
           </Widget6>
         </div>
       </div>
+      <div class="row">
+        <div class="col-xl-6">
+          <Widget2 widget-classes="card-xl-stretch mb-xl-8" widget-color="danger" chart-height="100"></Widget2>
+        </div>
+        <div class="col-xl-6">
+          <Widget8 widget-classes="card-xl-stretch mb-xl-8" widget-color="danger" chart-height="100"></Widget8>
+        </div>
+      </div>
     </div>
     <Modal />
   </div>
@@ -55,6 +58,7 @@ import Widget4 from "@/components/dashboard/Widget4.vue";
 import Widget5 from "@/components/dashboard/Widget5.vue";
 import Widget6 from "@/components/dashboard/Widget6.vue";
 import Widget7 from "@/components/dashboard/Widget7.vue";
+import Widget8 from "@/components/dashboard/Widget8.vue";
 import { useThemeStore } from "../stores/theme";
 import { useMasterData } from "../stores/common";
 import { dashboardStats } from "../stores/dashboard";
@@ -73,6 +77,7 @@ export default defineComponent({
     Widget5,
     Widget6,
     Widget7,
+    Widget8,
   },
   data() {
     return {
